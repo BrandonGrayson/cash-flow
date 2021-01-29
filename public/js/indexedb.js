@@ -5,7 +5,8 @@ const request = indexedDB.open("budget", 1);
 // create an object store inside the onupgradeneeded method
 request.onupgradeneeded = ({target}) => {
     const db = target.result;
-    const objectStore = db.createObjectStore("Data")
+    const objectStore = db.createObjectStore("Data");
+    objectStore.createIndex("timestamp", "timestamp")
 };
 
 // on success log the event to the console
