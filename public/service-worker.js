@@ -40,4 +40,36 @@ self.addEventListener("activate", function (event) {
     self.clients.claim();
 });
 
+// fetch
+self.addEventListener("fetch", function (event){
+    const {url} = event.request
+    if (url.includes("/api/transaction")) {
+        event.respondWith(
+            caches.open(DATA_CACHE_NAME).then(cache => {
+                return fetch(event.request)
+                .then(response => {
+                    // if response was good clone it and store it in the cache
+                    if (response.status === 200) {
+                        cache.put(event.request, response.clone());
+                    }
+                    return response
+                })
+                .catch(err => {
+                    // Network request failed, 
+                    return cache.match(event.request);
+                });
+
+            }).catch(err => console.log(err))
+        )
+    } else {
+        event.respondWith(
+            caches.open(CACHE_NAME).then(cache => {
+                return cache.match(event.request).then(response => {
+                    return response || fetch(event.request);
+                });
+            })
+        );
+    }
+});
+
 
