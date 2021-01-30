@@ -14,14 +14,14 @@ request.onsuccess = event => {
     db = event.target.result;
     console.log ("Navigor being simulated ---->----->")
     // check if app is online before reading from db
-    // if (navigator.onLine) {
-
-    // }
+    if (navigator.onLine) {
+        console.log("navigator online")
+    }
 };
 
 request.onerror = event => {
     console.log("Houston We have a problem------>", event.target.errorCode)
-}
+};
 
 function saveTransaction (transaction) {
     // create a transaction on the pending db with readwrite access
