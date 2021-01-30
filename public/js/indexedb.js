@@ -11,7 +11,14 @@ request.onupgradeneeded = ({target}) => {
 
 // on success log the event to the console
 request.onsuccess = event => {
-    console.log(request.result.name)
-    const objectStore = db.createObjectStore("transaction");
+    db = event.target.result;
+    console.log ("Navigor being simulated ---->----->")
+    // check if app is online before reading from db
+    // if (navigator.onLine) {
 
+    // }
 };
+
+request.onerror = event => {
+    console.log("Houston We have a problem", event.target.errorCode)
+}
