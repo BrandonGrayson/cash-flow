@@ -20,5 +20,17 @@ request.onsuccess = event => {
 };
 
 request.onerror = event => {
-    console.log("Houston We have a problem", event.target.errorCode)
+    console.log("Houston We have a problem------>", event.target.errorCode)
 }
+
+function saveTransaction (transaction) {
+    // create a transaction on the pending db with readwrite access
+    const transaction = db.transaction(["transaction"], "readwrite");
+
+    // access transaction object store
+    const store = transaction.objectStore("transaction");
+
+    // add transaction to store with add method
+    store.add(transaction);
+};
+
