@@ -43,5 +43,27 @@ function checkDatabase () {
     const getAll = store.getAll();
 
     // get all function
-    
-}
+    getAll.onsuccess = function () {
+        if (getAll.result.length > 0) {
+            fetch("/api/transaction/bulk", {
+                method: "POST",
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(() => {
+                // if successful, open a transaction on pending db
+                const transaction = db.transaction(["transaction"], "readwrite");
+                // access transaction object store
+                const store = transaction.objectStore("transaction")
+                // clear all items in store
+                store.clear()
+            });
+        }
+    };
+};
+
+
