@@ -34,3 +34,14 @@ function saveTransaction (transaction) {
     store.add(transaction);
 };
 
+function checkDatabase () {
+    // open transaction on budget db
+    const transaction = db.transaction(["transaction"], "readwrite");
+    // access transaction object store
+    const store = transaction.objectStore("transaction");
+    // get all rectords from store and set to var
+    const getAll = store.getAll();
+
+    // get all function
+    
+}
