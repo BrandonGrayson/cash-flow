@@ -16,6 +16,7 @@ request.onsuccess = event => {
     // check if app is online before reading from db
     if (navigator.onLine) {
         console.log("navigator online")
+        checkDatabase()
     }
 };
 
@@ -23,7 +24,7 @@ request.onerror = event => {
     console.log("Houston We have a problem------>", event.target.errorCode)
 };
 
-function saveTransaction (transaction) {
+function saveRecord (record) {
     // create a transaction on the pending db with readwrite access
     const transaction = db.transaction(["transaction"], "readwrite");
 
@@ -31,7 +32,7 @@ function saveTransaction (transaction) {
     const store = transaction.objectStore("transaction");
 
     // add transaction to store with add method
-    store.add(transaction);
+    store.add(record);
 };
 
 function checkDatabase () {
