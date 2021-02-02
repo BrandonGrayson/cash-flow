@@ -5,9 +5,10 @@ const DATA_CACHE_NAME = "data-cache-v1";
 // files to cache
 const FILES_TO_CACHE = [
     '/',
-    '/api/transaction',
     '/index.html',
-    '/routes/api.js',
+    '/index.js',
+    '/indexedb.js',
+    '/styles.css',
     '/manifest.webmanifest',
     '/icons/icon-192x192.png',
     '/icons/icon-512x512.png',
@@ -16,7 +17,7 @@ const FILES_TO_CACHE = [
   // install
 self.addEventListener("install", function (event) {
     event.waitUntil(
-        caches.open(DATA_CACHE_NAME).then((cache) => {
+        caches.open(CACHE_NAME).then((cache) => {
             console.log("Files were pre-cached successfully");
             return cache.addAll(FILES_TO_CACHE);
         })
@@ -44,7 +45,7 @@ self.addEventListener("activate", function (event) {
 // fetch
 self.addEventListener("fetch", function (event){
     const {url} = event.request
-    if (url.includes("/api/transaction")) {
+    if (url.includes("/api/")) {
         event.respondWith(
             caches.open(DATA_CACHE_NAME).then(cache => {
                 return fetch(event.request)
